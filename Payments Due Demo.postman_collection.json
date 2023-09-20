@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "88863f5c-c655-4ffb-b7ad-7f0dc51eeea4",
+		"name": "Payments Due Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Record payment due",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"paymentId\": \"P_001\",\n    \"name\": \"iPhone 13\",\n    \"vendor\": \"Apple\",\n    \"amount\": \"799.00\",\n    \"currency\": \"USD\",\n    \"due\": \"2023-10-12T12:34:56\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/payments-due-demo-app/v1/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments-due-demo-app",
+						"v1",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get payments due unitl",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/payments-due-demo-app/v1/payments?until=2023-10-12T12:34:56",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments-due-demo-app",
+						"v1",
+						"payments"
+					],
+					"query": [
+						{
+							"key": "until",
+							"value": "2023-10-12T12:34:56"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get payments due in",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/payments-due-demo-app/v1/payments?days=30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments-due-demo-app",
+						"v1",
+						"payments"
+					],
+					"query": [
+						{
+							"key": "days",
+							"value": "30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Record payment done",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/payments-due-demo-app/v1/payments/P_002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments-due-demo-app",
+						"v1",
+						"payments",
+						"P_002"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var userId = \"U_001\";",
+					"var password = \"password\";",
+					"",
+					"function generateJwt() {",
+					"    let key = userId + \":\" + password;",
+					"    let encodedKey = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(key));",
+					"    postman.setEnvironmentVariable(\"token\", encodedKey);",
+					"    return encodedKey;",
+					"}",
+					"",
+					"generateJwt();",
+					"pm.request.headers.append({key: 'Authorization', value: 'Basic {{token}}'})",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

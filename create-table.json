@@ -1,0 +1,28 @@
+{
+  "TableName": "payments",
+  "KeySchema": [
+    { "AttributeName": "userId", "KeyType": "HASH" },
+    { "AttributeName": "paymentId", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "userId", "AttributeType": "S" },
+    { "AttributeName": "paymentId", "AttributeType": "S" },
+    { "AttributeName": "due", "AttributeType": "S" }
+  ],
+  "LocalSecondaryIndexes": [
+    {
+      "IndexName": "dueDateIndex",
+      "KeySchema": [
+        { "AttributeName": "userId", "KeyType": "HASH" },
+        { "AttributeName": "due", "KeyType": "RANGE" }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}
